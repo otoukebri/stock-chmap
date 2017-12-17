@@ -40,7 +40,6 @@ public class StockController {
     @ApiOperation(value = "Get all Stock items within page", notes = "Returns all Stock items within page")
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<List<StockModel>> getAllStocks() {
-        logger.debug("StockController.getAllStocks.id");
         return new ResponseEntity<List<StockModel>>(stockBusiness.getAllStocks(), HttpStatus.OK);
     }
 
@@ -67,16 +66,17 @@ public class StockController {
      * Updates stockEntity element
      *
      * @param id
-     * @param stockModel
+     * @param newPrice
      * @return
      */
-    @RequestMapping(path = "{id}", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
-    @ApiOperation(value = "Updates attributes of tock item.", notes = "Returns the updated stock item")
-    public ResponseEntity<StockModel> put(@PathVariable Long id, @RequestBody StockModel stockModel) throws ApiNotFoundException {
-        logger.debug("StockController.put: " + stockModel);
-        StockModel updateStock = stockBusiness.updateStock(stockModel, id);
+    @RequestMapping(path = "{id}/{price}", consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.PUT)
+    @ApiOperation(value = "Updates  a stock item price", notes = "Returns the updated stock item")
+    public ResponseEntity<StockModel> put(@PathVariable("id") @ApiParam(value = "the stock id", required = true) Long id,
+                                          @PathVariable("price") @ApiParam(value = "the new price", required = true)
+                                                  Double newPrice) throws ApiNotFoundException {
+        StockModel updateStock = stockBusiness.updateStock(id, newPrice);
         if (updateStock == null) {
-            throw new ApiNotFoundException("Unable to find the stockEntity with id " + id);
+            throw new ApiNotFoundException("Unable to find the stock item with id " + id);
         } else {
             return new ResponseEntity<StockModel>(updateStock, HttpStatus.OK);
         }
@@ -92,14 +92,13 @@ public class StockController {
     @RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
     @ApiOperation(value = "Creates a new stock item", notes = "Returns the new stock item crated")
     public ResponseEntity<StockModel> post(@RequestBody StockModel stockModel) throws ApiInternalServerException, ApiConflictException, ApiBadRequestException {
-        logger.debug("StockController.post: " + stockModel);
-        stockModelValidator.validateStockModel(stockModel);
+        stockModelValidator.validateSaveStockModel(stockModel);
         if (stockBusiness.exist(stockModel)) {
             throw new ApiConflictException("the stock item with name " + stockModel.getName() + " already exists");
         } else {
             StockModel createdStock = stockBusiness.saveStock(stockModel);
             if (createdStock != null) {
-                return new ResponseEntity<StockModel>(createdStock, HttpStatus.OK);
+                return new ResponseEntity<StockModel>(createdStock, HttpStatus.CREATED);
             } else {
                 throw new ApiInternalServerException("Some thing wrong occurred during create of stock item");
             }

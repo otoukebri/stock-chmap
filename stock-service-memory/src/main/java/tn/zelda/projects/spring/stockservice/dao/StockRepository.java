@@ -12,7 +12,7 @@ public interface StockRepository {
 
     public StockEntity create(StockModel stockModel);
 
-    public StockEntity update(Long id, StockModel stockModel);
+    public StockEntity update(Long id, Double newPrice);
 
     public StockEntity find(Long id);
 

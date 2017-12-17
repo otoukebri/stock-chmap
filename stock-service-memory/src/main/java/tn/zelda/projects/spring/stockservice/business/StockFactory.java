@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class StockFactory {
 
     public static StockModel toStockModel(StockEntity stockEntity) {
-        return stockEntity != null ? new StockModel(stockEntity.getId(), stockEntity.getName(), stockEntity.getCurrentPrice()) : null;
+        return stockEntity != null ? new StockModel(stockEntity.getId(), stockEntity.getName(), stockEntity.getCode(), stockEntity.getCurrentPrice()) : null;
     }
 
     public static List<StockModel> toStockModelList(List<StockEntity> stockEntities) {
@@ -18,18 +18,6 @@ public class StockFactory {
                 .stream()
                 .map(stock -> toStockModel(stock))
                 .collect(Collectors.toList());
-    }
-
-    public static StockEntity toStockEntity(StockModel stockModel) {
-        if (stockModel == null) return null;
-        else {
-            StockEntity newStockEntity = new StockEntity();
-            newStockEntity.setLastUpdate(new Date());
-            newStockEntity.setName(stockModel.getName());
-            newStockEntity.setCurrentPrice(stockModel.getCurrentPrice());
-            return newStockEntity;
-        }
-
     }
 
 }

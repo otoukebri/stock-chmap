@@ -5,15 +5,15 @@ import java.util.Date;
 import java.util.Objects;
 
 
-public class StockEntity {
-
+public class StockEntity implements Cloneable {
 
     private Long id;
 
     private String name;
 
-    private Double currentPrice;
+    private String code;
 
+    private Double currentPrice;
 
     private Date lastUpdate;
 
@@ -25,8 +25,11 @@ public class StockEntity {
         this.name = name;
     }
 
-    public StockEntity(String name, Double currentPrice, Date lastUpdate) {
+
+    public StockEntity(Long id, String name, String code, Double currentPrice, Date lastUpdate) {
+        this.id = id;
         this.name = name;
+        this.code = code;
         this.currentPrice = currentPrice;
         this.lastUpdate = lastUpdate;
     }
@@ -55,25 +58,35 @@ public class StockEntity {
         this.currentPrice = currentPrice;
     }
 
-    public Date getLastUpdate() {
-        return lastUpdate;
-    }
-
     public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof StockEntity)) return false;
         StockEntity stockEntity = (StockEntity) o;
-        return Objects.equals(getName(), stockEntity.getName());
+        return  getCode().equals( stockEntity.getCode());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName());
+        return Objects.hash(getCode());
     }
+
+    @Override
+    public StockEntity clone() {
+        return new StockEntity(this.id, this.name,this.code, this.currentPrice, this.lastUpdate);
+    }
+
+
 }

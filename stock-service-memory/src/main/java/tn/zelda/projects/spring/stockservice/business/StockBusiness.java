@@ -10,7 +10,7 @@ public interface StockBusiness {
 
     public StockModel getStock(long id);
 
-    public StockModel updateStock(StockModel stockModel, long id);
+    public StockModel updateStock(Long id, Double newPrice);
 
     public StockModel saveStock(StockModel newStockModel);
 

@@ -7,14 +7,16 @@ import tn.zelda.projects.spring.stockservice.model.StockModel;
 @Service
 public class StockModelValidator {
 
-    public void validateStockModel(StockModel stockModel) throws ApiBadRequestException {
-        if (stockModel == null || stockModel.getName().trim().equals("") && stockModel.getCurrentPrice() <= 0.0)
-            throw new ApiBadRequestException("In valid stock name and price");
+    public void validateSaveStockModel(StockModel stockModel) throws ApiBadRequestException {
 
-        if (stockModel != null && stockModel.getName().trim().equals(""))
-            throw new ApiBadRequestException("In valid stock name");
+        if (stockModel == null ||  stockModel.getCode() == null || stockModel.getCode().trim().equals(""))
+            throw new ApiBadRequestException("In valid stock code (code could not be empty or null)");
 
-        if (stockModel != null && stockModel.getCurrentPrice() <= 0.0)
+        if (stockModel == null ||  stockModel.getName() == null || stockModel.getName().trim().equals(""))
+            throw new ApiBadRequestException("In valid stock name (name could not be empty or null)");
+
+        if (stockModel == null || stockModel.getCurrentPrice() == null || stockModel.getCurrentPrice() <= 0.0)
             throw new ApiBadRequestException("In valid stock price");
     }
+
 }

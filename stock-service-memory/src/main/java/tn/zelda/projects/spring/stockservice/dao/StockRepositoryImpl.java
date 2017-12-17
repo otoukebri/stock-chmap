@@ -25,30 +25,27 @@ public class StockRepositoryImpl implements StockRepository {
         return stocks.get(id);
     }
 
-    public StockEntity update(Long id, StockModel stockModel) {
+    public StockEntity update(Long id, Double newPrice) {
         StockEntity stockEntity = find(id);
         if (stockEntity == null)
             return null;
         else {
-            stockEntity.setName(stockModel.getName());
-            stockEntity.setCurrentPrice(stockModel.getCurrentPrice());
-            stocks.put(id, stockEntity);
-            return stockEntity;
+            StockEntity stockEntityClone = stockEntity.clone();
+            stockEntityClone.setCurrentPrice(newPrice);
+            stockEntityClone.setLastUpdate(new Date());
+            stocks.replace(id, stockEntityClone);
+            return stockEntityClone.clone();
         }
     }
 
     public StockEntity create(StockModel stockModel) {
         long id = index.getAndIncrement();
-        StockEntity stock = new StockEntity();
-        stock.setId(id);
-        stock.setLastUpdate(new Date());
-        stock.setName(stockModel.getName());
-        stock.setCurrentPrice(stockModel.getCurrentPrice());
-        stocks.put(id, stock);
-        return stock;
+        StockEntity stock = new StockEntity(id, stockModel.getName(), stockModel.getCode(), stockModel.getCurrentPrice(), new Date());
+        stocks.putIfAbsent(id, stock);
+        return stock.clone();
     }
 
     public Boolean exists(StockModel stockModel) {
-        return stocks.containsValue(new StockEntity(stockModel.getName()));
+        return stocks.containsValue(new StockEntity(null, null, stockModel.getCode(), null, null));
     }
 }
