@@ -19,6 +19,9 @@ import tn.zelda.projects.spring.stockservice.validator.StockModelValidator;
 
 import java.util.List;
 
+/**
+ * Controller that responds Stock API requests
+ */
 @RestController
 @RequestMapping(value = "/api/stocks")
 public class StockController {

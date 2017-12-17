@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 import tn.zelda.projects.spring.stockservice.exception.ApiBadRequestException;
 import tn.zelda.projects.spring.stockservice.model.StockModel;
 
+/**
+ * Validation class : validates user inputs before stock
+ */
 @Service
 public class StockModelValidator {
 

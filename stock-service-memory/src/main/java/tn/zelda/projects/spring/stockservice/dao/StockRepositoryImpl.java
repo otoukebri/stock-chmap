@@ -11,6 +11,12 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+/**
+ *  Repository class that simulates in memory database
+ *  using ConcurrentHashMap with default DEFAULT_CONCURRENCY_LEVEL=16
+ *  also clone object used for immutability
+ */
+
 @Repository
 public class StockRepositoryImpl implements StockRepository {
 

@@ -4,7 +4,9 @@ package tn.zelda.projects.spring.stockservice.dao.entities;
 import java.util.Date;
 import java.util.Objects;
 
-
+/**
+ * Model class that contains all information
+ */
 public class StockEntity implements Cloneable {
 
     private Long id;

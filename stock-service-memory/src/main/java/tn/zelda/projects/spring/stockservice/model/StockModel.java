@@ -3,6 +3,10 @@ package tn.zelda.projects.spring.stockservice.model;
 
 import java.util.Objects;
 
+/**
+ * Dto class used to transfer user input
+ * through layers
+ */
 public class StockModel {
 
     private long id;
